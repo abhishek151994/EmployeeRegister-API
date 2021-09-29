@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="employeedataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Register">
+          <Key>
+            <PropertyRef Name="RId" />
+          </Key>
+          <Property Name="RId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoginId" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="20" />
+          <Property Name="Password" Type="nvarchar" MaxLength="20" />
+          <Property Name="ConfirmPassword" Type="nvarchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Contact" Type="nvarchar" MaxLength="10" />
+          <Property Name="Role" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TblLogin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="10" />
+          <Property Name="Password" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK_Register_Emp_TblLogin">
+          <End Role="TblLogin" Type="Self.TblLogin" Multiplicity="1" />
+          <End Role="Register" Type="Self.Register" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblLogin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Register">
+              <PropertyRef Name="LoginId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="employeedataModelStoreContainer">
+          <EntitySet Name="Register" EntityType="Self.Register" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblLogin" EntityType="Self.TblLogin" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Register_Emp_TblLogin" Association="Self.FK_Register_Emp_TblLogin">
+            <End Role="TblLogin" EntitySet="TblLogin" />
+            <End Role="Register" EntitySet="Register" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="employeedataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Register">
+          <Key>
+            <PropertyRef Name="RId" />
+          </Key>
+          <Property Name="RId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoginId" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ConfirmPassword" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contact" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TblLogin" Relationship="Self.FK_Register_Emp_TblLogin" FromRole="Register" ToRole="TblLogin" />
+        </EntityType>
+        <EntityType Name="TblLogin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Registers" Relationship="Self.FK_Register_Emp_TblLogin" FromRole="TblLogin" ToRole="Register" />
+        </EntityType>
+        <Association Name="FK_Register_Emp_TblLogin">
+          <End Role="TblLogin" Type="Self.TblLogin" Multiplicity="1" />
+          <End Role="Register" Type="Self.Register" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblLogin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Register">
+              <PropertyRef Name="LoginId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="employeedataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Registers" EntityType="Self.Register" />
+          <EntitySet Name="TblLogins" EntityType="Self.TblLogin" />
+          <AssociationSet Name="FK_Register_Emp_TblLogin" Association="Self.FK_Register_Emp_TblLogin">
+            <End Role="TblLogin" EntitySet="TblLogins" />
+            <End Role="Register" EntitySet="Registers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="employeedataModelStoreContainer" CdmEntityContainer="employeedataEntities">
+          <EntitySetMapping Name="Registers">
+            <EntityTypeMapping TypeName="employeedataModel.Register">
+              <MappingFragment StoreEntitySet="Register">
+                <ScalarProperty Name="RId" ColumnName="RId" />
+                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="ConfirmPassword" ColumnName="ConfirmPassword" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblLogins">
+            <EntityTypeMapping TypeName="employeedataModel.TblLogin">
+              <MappingFragment StoreEntitySet="TblLogin">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
